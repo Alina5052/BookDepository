@@ -11,13 +11,17 @@
         android:theme="@style/Theme.BookDepository">
 
         <activity
-            android:name=".BookActivity"
+            android:name=".BookListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".BookActivity"
+            android:exported="false" />
 
     </application>
 

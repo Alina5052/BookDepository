@@ -1,31 +1,25 @@
 package ru.oganisan.bookdepository;
 
-import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
+
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import ru.oganisan.bookdepository.BookFragment;  // добавленный импорт
+import java.util.UUID;
 
-public class BookActivity extends AppCompatActivity {
+public class BookActivity extends SingleFragmentActivity {
+
+    private static final String EXTRA_BOOK_ID = "ru.oganisan.bookdepository.book_id";
+
+    public static Intent newIntent(Context packageContext, UUID bookId) {
+        Intent intent = new Intent(packageContext, BookActivity.class);
+        intent.putExtra(EXTRA_BOOK_ID, bookId);
+        return intent;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book);
-
-        // Получаем менеджер фрагментов
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Ищем фрагмент по контейнеру
-        Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);
-
-        // Если фрагмент еще не добавлен, создаем новый и добавляем
-        if (fragment == null) {
-            fragment = new BookFragment();
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, fragment)
-                    .commit();
-        }
+    protected Fragment createFragment() {
+        UUID bookId = (UUID) getIntent().getSerializableExtra(EXTRA_BOOK_ID);
+        return BookFragment.newInstance(bookId);
     }
 }
